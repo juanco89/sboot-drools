@@ -1,0 +1,42 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compile("org.springframework.boot:spring-boot-starter-web:1.4.0.RELEASE")
+	
+	compile 'org.springframework.data:spring-data-jpa:1.10.2.RELEASE'
+	
+	// compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.2.RELEASE'
+	
+	// compile group: 'org.eclipse.persistence', name: 'eclipselink', version: '2.6.3'
+	// compile group: 'org.hibernate', name: 'hibernate-core', version: '4.3.11.Final'
+	
+	compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '4.3.11.Final'
+	
+	compile group: 'com.h2database', name: 'h2', version: '1.4.192'
+}
+
+jar {
+	baseName = 'sboot'
+	version = '0.0.1-SNAPSHOT'
+	
+	archiveName 'sboot.jar'
+    manifest {
+        attributes 'Implementation-Title': "sboot", 'Implementation-Version': version
+    }
+}
+
+eclipse {
+	classpath {
+		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+	}
+}
