@@ -6,6 +6,9 @@ targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
+    maven {
+        url 'https://repository.jboss.org/nexus/content/groups/public/'
+    }
 }
 
 
@@ -22,6 +25,10 @@ dependencies {
 	compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '4.3.11.Final'
 	
 	compile group: 'com.h2database', name: 'h2', version: '1.4.192'
+	
+	compile 'org.drools:drools-core:6.4.0.Final'
+    compile 'org.drools:drools-compiler:6.4.0.Final'
+    compile 'org.drools:drools-decisiontables:6.4.0.Final'
 }
 
 jar {
