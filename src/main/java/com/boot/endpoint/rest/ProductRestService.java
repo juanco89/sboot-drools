@@ -1,5 +1,6 @@
 package com.boot.endpoint.rest;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.boot.modelo.entidades.Product;
+import com.boot.modelo.payload.Response;
+import com.boot.modelo.payload.ShoppingList;
 import com.boot.negocio.drools.PriceCalculator;
 import com.boot.persistencia.jpa.ProductRepository;
 
@@ -39,7 +42,23 @@ public class ProductRestService {
   public Product queryPriceProduct(@PathVariable("productName") String productName) {
     Product p = new Product(productName);
     PriceCalculator calculator = new PriceCalculator();
-    calculator.calculate(p);
+    calculator.calculate(Arrays.asList(p));
     return p;
+  }
+  
+  @RequestMapping(path = "/totalPrice", method = RequestMethod.POST)
+  public Response<Double> queryPriceProduct(@RequestBody ShoppingList shoppingList) {
+    List<Product> productList = shoppingList.getList().stream()
+                                            .map(s -> s.getProduct())
+                                            .collect(Collectors.toList());
+    
+    PriceCalculator calculator = new PriceCalculator();
+    calculator.calculate(productList);
+    
+    double totalPrice = shoppingList.getList().stream()
+                .mapToDouble(s -> s.getQuantity() * s.getProduct().getPrice()  )
+                .sum();
+    
+    return new Response<>(totalPrice);
   }
 }

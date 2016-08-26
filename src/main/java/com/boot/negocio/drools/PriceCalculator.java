@@ -1,5 +1,7 @@
 package com.boot.negocio.drools;
 
+import java.util.List;
+
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.StatelessKieSession;
@@ -15,7 +17,7 @@ public class PriceCalculator {
     ksession = kc.newStatelessKieSession("pricesKS");
   }
   
-  public void calculate(Product p) {
+  public void calculate(List<Product> p) {
     ksession.execute(p);
   }
 }
